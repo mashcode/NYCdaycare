@@ -1,3 +1,5 @@
+<!--h2></h2>
+<hr-->
 <div id="map"></div>
 
 <div id="age_selector" class="cartodb-infobox">

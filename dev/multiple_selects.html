@@ -1,73 +1,137 @@
-<!-- Popup modal -->
-<script type="text/javascript">
-(function(){
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Layer selector example | CartoDB.js</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
 
-  var container = document.documentElement,
-    popup = document.querySelector( '.avgrund-popup' ),
-    cover = document.querySelector( '.avgrund-cover' ),
-    currentState = null;
+      #age_selector {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 0;
+        width: 230px;
+      }
 
-  addClass( container, 'avgrund-ready' );
+      #type_selector {
+        position: absolute;
+        top: 170px;
+        right: 20px;
+        padding: 0;
+        width: 230px;
+      }
+        #medicine_selector {
+        position: absolute;
+        top: 410px;
+        right: 20px;
+        padding: 0;
+        width: 230px;
+      }
 
-  // Deactivate on ESC
-  function onDocumentKeyUp( event ) {
-    if( event.keyCode === 27 ) {
-      deactivate();
-    }
-  }
+      #age_selector ul {
+        padding: 0; margin: 0;
+        list-style-type: none;
+      }
 
-  // Deactivate on click outside
-  function onDocumentClick( event ) {
-    if( event.target === cover ) {
-      deactivate();
-    }
-  }
+      #type_selector ul {
+        padding: 0; margin: 0;
+        list-style-type: none;
+      }
+        #medicine_selector ul {
+        padding: 0; margin: 0;
+        list-style-type: none;
+      }
 
-  function activate( state ) {
-    document.addEventListener( 'keyup', onDocumentKeyUp, false );
-    document.addEventListener( 'click', onDocumentClick, false );
+      #age_selector li {
+        border-bottom: 1px solid #999;
+        padding: 15px 30px;
+        font-family: "Helvetica", Arial;
+        font-size: 13px;
+        color: #444;
+        cursor: auto;
+      }
+      #medicine_selector li {
+        border-bottom: 1px solid #999;
+        padding: 15px 30px;
+        font-family: "Helvetica", Arial;
+        font-size: 13px;
+        color: #444;
+        cursor: auto;
+      }
+      #type_selector li {
+        border-bottom: 1px solid #999;
+        padding: 15px 30px;
+        font-family: "Helvetica", Arial;
+        font-size: 13px;
+        color: #444;
+        cursor: auto;
+      }
 
-    removeClass( popup, currentState );
-    addClass( popup, 'no-transition' );
-    addClass( popup, state );
+      #age_selector li:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+      }
+        #medicine_selector li:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+      }
+      #type_selector li:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+      }
 
-    setTimeout( function() {
-      removeClass( popup, 'no-transition' );
-      addClass( container, 'avgrund-active' );
-    }, 0 );
+      #age_selector li.selected {
+        background-color: #EEE;
+      }
 
-    currentState = state;
-  }
+      #type_selector li.selected {
+        background-color: #EEE;
+      }
+    #medicine_selector li.selected {
+        background-color: #EEE;
+      }
+    </style>
 
-  function deactivate() {
-    document.removeEventListener( 'keyup', onDocumentKeyUp, false );
-    document.removeEventListener( 'click', onDocumentClick, false );
 
-    removeClass( container, 'avgrund-active' );
-  }
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="age_selector" class="cartodb-infobox">
+      <ul>
+        <li data="all" class="selected">All Years</li>
+        <li data="0 YEARS - 2 YEARS">0 - 2 Years</li>
+        <li data="2 YEARS - 5 YEARS">2 - 5 Years</li>
+      </ul>
+    </div>
+    <div id="type_selector" class="cartodb-infobox">
+      <ul>
+        <li data="all" class="selected">All Types</li>
+        <li data="Private">Private</li>
+        <li data="ACS Head Start">ACS Head Start</li>
+        <li data="ACS Contracted Preschools">ACS Contracted Preschools</li>
+        <li data="Corporate">Corporate</li>
+      </ul>
+      </div>
+    <div id="medicine_selector" class="cartodb-infobox">
+      <ul>
+        <li data="all" class="selected">All</li>
+        <li data="Yes">Certified to give medicine</li>
+        <!-- <li data="No">Not certified to give medicine</li> -->
+      </ul>
+    </div>
 
-  function disableBlur() {
-    addClass( document.documentElement, 'no-blur' );
-  }
-
-  function addClass( element, name ) {
-    element.className = element.className.replace( /\s+$/gi, '' ) + ' ' + name;
-  }
-
-  function removeClass( element, name ) {
-    element.className = element.className.replace( name, '' );
-  }
-
-  window.avgrund = {
-    activate: activate,
-    deactivate: deactivate,
-    disableBlur: disableBlur
-  }
-
-})();
-</script>
-
- <!-- include google maps library *before* load cartodb.js -->
+    <!-- include google maps library *before* load cartodb.js -->
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
@@ -114,7 +178,7 @@
             }
             //
           if(agerange != 'all' && sitetype != 'all' && medicinetype == 'all') {
-              query = "SELECT * FROM table_04apr2014 WHERE age_range LIKE "+ "'%"+agerange+"%'"+"AND site_type like "+ "'%"+sitetype+"%'";
+            	query = "SELECT * FROM table_04apr2014 WHERE age_range LIKE "+ "'%"+agerange+"%'"+"AND site_type like "+ "'%"+sitetype+"%'";
             }
             //
           if(agerange == 'all' && sitetype == 'all' && medicinetype != 'all') {
@@ -122,15 +186,15 @@
             }
             //
           if(agerange == 'all' && sitetype != 'all' && medicinetype == 'all') {
-              query = "SELECT * FROM table_04apr2014 WHERE site_type like "+ "'%"+sitetype+"%'";
+            	query = "SELECT * FROM table_04apr2014 WHERE site_type like "+ "'%"+sitetype+"%'";
             }
             //
           if(agerange != 'all' && sitetype == 'all' && medicinetype == 'all') {
-              query = "SELECT * FROM table_04apr2014 WHERE age_range LIKE "+ "'%"+agerange+"%'";
+            	query = "SELECT * FROM table_04apr2014 WHERE age_range LIKE "+ "'%"+agerange+"%'";
             }
             //
           if(medicinetype == 'all' && sitetype == 'all' && agerange == 'all') {
-              query = "select * from table_04apr2014";
+            	query = "select * from table_04apr2014";
             }
 
           // change the query in the layer to update the map
@@ -267,4 +331,5 @@
 
       window.onload = main;
     </script>
-
+  </body>
+</html>
