@@ -31569,12 +31569,23 @@ var Vis = cdb.core.View.extend({
 
     layer.bind(options.triggerEvent, function(e, latlng, pos, data, layer) {
       var render_fields = [];
-      for(var k in data) {
-        render_fields.push({
-          title: k,
-          value: data[k],
-          index: 0
-        });
+      //June 25th 2014, Anita manually added patch for order issue: https://github.com/CartoDB/cartodb.js/issues/126
+      //for(var k in data) {
+      //  render_fields.push({
+      //    title: k,
+      //    value: data[k],
+      //    index: 0
+      //  });
+      var d;
+      for (var f = 0; f < fields.length; ++f) {
+        var field = fields[f];
+        if (d = data[field]) {
+          render_fields.push({
+            title: field,
+            value: d,
+            index: 0
+          });
+        }
       }
       infowindow.model.set({
         content:  {
@@ -31946,11 +31957,12 @@ cdb.vis.Overlay.register('share', function(data, vis) {
 // search content
 cdb.vis.Overlay.register('search', function(data, vis) {
 
+// ttip class and placeholder attribute for tooltips
   var template = cdb.core.Template.compile(
     data.template || '\
       <form>\
         <span class="loader"></span>\
-        <input type="text" class="text" value="" />\
+        <input type="text" class="text" data-tooltip="” value="" placeholder="Enter street address"/>\
         <input type="submit" class="submit" value="" />\
       </form>\
     ',
